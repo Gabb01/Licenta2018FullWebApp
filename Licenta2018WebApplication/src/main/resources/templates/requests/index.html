@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Requests List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+</head>
+<body>
+
+	<div th:include="fragments/header"></div>
+
+	<div class="container">
+		<div class="page-header">
+			<h1>Requests List</h1>
+		</div>
+		
+		<div th:if="${#lists.isEmpty(requests)}">
+			<p><i>No requests to show</i></p>
+		</div>
+		
+		<div class="list-group" th:each="request : ${requests}">
+			<a class="list-group-item" th:if="${request.id}" th:text="${request.approvalStatus}"
+				th:href="@{|/requests/${request.id}|}"></a>
+		</div>
+		
+		<p sec:authorize="hasAnyRole('HOTEL_MANAGER')">
+			<a class="btn btn-primary" href="/requests/new">Add a Hotel</a>
+		</p>
+	</div>
+</body>
+</html>
+

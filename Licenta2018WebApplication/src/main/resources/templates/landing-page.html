@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Homepage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<link rel="stylesheet" type="text/css" th:href="@{|/css/general.css|}" />
+</head>
+<body>
+	<div th:include="fragments/header"></div>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>Welcome to City Hall</h1>
+		</div>
+		
+		<hr/>
+
+		<div>
+			<div class="col-md-4" th:each="request, hstat : ${requests}"
+				th:unless="${hstat.index > 2}">
+				<h3 align="center">
+					<span th:text="${request.id}"></span>
+					<span th:text="${request.issueDate}"></span>
+				</h3>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
