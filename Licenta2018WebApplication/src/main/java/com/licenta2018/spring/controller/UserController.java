@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.licenta2018.spring.model.Audience;
 import com.licenta2018.spring.model.Authority;
 import com.licenta2018.spring.model.CustomUserDetail;
 import com.licenta2018.spring.model.CustomUserDetailsService;
 import com.licenta2018.spring.model.Request;
 import com.licenta2018.spring.model.User;
+import com.licenta2018.spring.repository.AudienceRepository;
 import com.licenta2018.spring.repository.AuthorityRepository;
 import com.licenta2018.spring.repository.RequestRepository;
 import com.licenta2018.spring.repository.UserRepository;
@@ -38,6 +40,9 @@ public class UserController {
 	
 	@Autowired
 	RequestRepository requests;
+	
+	@Autowired
+	AudienceRepository audiences;
 	
 	@Autowired
 	AuthorityRepository authorities;
@@ -109,10 +114,26 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();    	    
 		CustomUserDetail myUser= (CustomUserDetail) auth.getPrincipal();
 		User user = users.findOne(myUser.getUser().getId());
-		model.addAttribute("requests", getUserRequests(user.getId()));    	    	
+		model.addAttribute("requests", getUserRequests(user.getId()));
+		model.addAttribute("audiences", getUserAudiences(user.getId()));
 		model.addAttribute("user", user);
 		return "users/show";
 	}
+
+	public Iterable<Audience> getUserAudiences(long user_id)
+	{
+		Iterator<Audience> audiencesIterator = audiences.findAll().iterator();
+		List<Audience> audiencesList = new ArrayList<Audience>();
+
+		while(audiencesIterator.hasNext())
+		{
+			Audience b = audiencesIterator.next();
+			if(b.getUser().getId() == user_id)
+				audiencesList.add(b);
+		}
+
+		return audiencesList;
+	}  
 
 	public Iterable<Request> getUserRequests(long user_id)
 	{

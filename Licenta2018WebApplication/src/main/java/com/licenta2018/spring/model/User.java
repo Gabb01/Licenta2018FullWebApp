@@ -33,6 +33,10 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="user", orphanRemoval = true)
 	private Set<Request> request = new HashSet<Request>();
 	
+	@JsonManagedReference
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user", orphanRemoval = true)
+	private Set<Audience> audience = new HashSet<Audience>();
+	
 	@ManyToOne
 	private Authority authority;
 	
@@ -91,6 +95,14 @@ public class User {
 
 	public void setRequest(Set<Request> request) {
 		this.request = request;
+	}
+
+	public Set<Audience> getAudience() {
+		return audience;
+	}
+
+	public void setAudience(Set<Audience> audience) {
+		this.audience = audience;
 	}
 
 	public Authority getAuthority() {

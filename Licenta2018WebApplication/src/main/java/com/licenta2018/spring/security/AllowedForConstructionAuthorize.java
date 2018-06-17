@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize(AllowedForHotelManager.condition)
-public @interface AllowedForHotelManager {
-	String condition = "hasRole('ROLE_HOTEL_MANAGER')";
+@PreAuthorize(AllowedForConstructionAuthorize.condition)
+public @interface AllowedForConstructionAuthorize {
+	String condition = "hasRole('ROLE_CONSTRUCTION_AUTHORIZE')";
 }

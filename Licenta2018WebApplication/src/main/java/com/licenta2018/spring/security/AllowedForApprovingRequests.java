@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize(AllowedForApprovingBookings.condition)
-public @interface AllowedForApprovingBookings {
-	String condition = "@mySecurityService.canApproveBooking(#booking_id, principal) or " + AllowedForHotelManager.condition;
+@PreAuthorize(AllowedForApprovingRequests.condition)
+public @interface AllowedForApprovingRequests {
+	String condition = "@mySecurityService.canApproveConstructionRequests(principal)";
 }

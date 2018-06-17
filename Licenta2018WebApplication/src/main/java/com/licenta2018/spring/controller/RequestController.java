@@ -18,6 +18,7 @@ import com.licenta2018.spring.model.User;
 import com.licenta2018.spring.repository.RequestRepository;
 import com.licenta2018.spring.repository.RequestTypeRepository;
 import com.licenta2018.spring.repository.UserRepository;
+import com.licenta2018.spring.security.AllowedForConstructionAuthorize;
 import com.licenta2018.spring.utility.RequestNotFoundException;
 
 @Controller
@@ -77,6 +78,19 @@ public class RequestController {
 	public String index(Model model) {
 		model.addAttribute("requests", requests.findAll());
 		return "requests/index";
+	}
+	
+	@RequestMapping(value = "{id}/approve", method = RequestMethod.POST)
+	@AllowedForConstructionAuthorize
+	public String onApproveRequest(@PathVariable("id") long id, Model model)
+	{
+		Date approvalDate = new Date();
+		Request request = requests.findOne(id);
+		if(request == null)
+			throw new RequestNotFoundException();
+		request.setApprovalStatus(true);
+		request.setApprovalDate(approvalDate);
+		return "redirect:/users/me";
 	}
     
 	private User getCurrentUser(){
